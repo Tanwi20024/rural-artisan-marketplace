@@ -14,7 +14,7 @@ def create_app():
     migrate.init_app(app, db)
 
     # Flask-Login configuration
-    login_manager.login_view = 'auth.login'  # we'll create this blueprint in Step 3
+    login_manager.login_view = 'auth.login'
     login_manager.login_message_category = 'info'
 
     # Import models so Flask-Migrate can detect them
@@ -23,6 +23,10 @@ def create_app():
     @login_manager.user_loader
     def load_user(user_id):
         return User.query.get(int(user_id))
+
+    # Register blueprints
+    from blueprints.auth import auth_bp
+    app.register_blueprint(auth_bp)
 
     @app.route('/')
     def home():
