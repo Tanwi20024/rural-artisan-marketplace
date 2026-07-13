@@ -1,0 +1,53 @@
+{% extends "base.html" %} {% block title %}My Cart - Rural Artisan Marketplace{% endblock %} {% block content %}
+
+<h2 class="mb-4">My Cart</h2>
+
+{% if cart_items %}
+<div class="table-responsive">
+    <table class="table align-middle">
+        <thead>
+            <tr>
+                <th>Product</th>
+                <th>Price</th>
+                <th>Quantity</th>
+                <th>Subtotal</th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for item in cart_items %}
+            <tr>
+                <td>
+                    <div class="d-flex align-items-center">
+                        {% if item.product.image_filename %}
+                        <img src="{{ url_for('static', filename='uploads/' + item.product.image_filename) }}" style="width: 60px; height: 60px; object-fit: cover;" class="rounded me-3"> {% endif %}
+                        <a href="{{ url_for('products.product_detail', product_id=item.product.id) }}">{{ item.product.name }}</a>
+                    </div>
+                </td>
+                <td>₹{{ "%.2f"|format(item.product.price) }}</td>
+                <td style="width: 120px;">
+                    <form method="POST" action="{{ url_for('cart.update_quantity', cart_id=item.id) }}" class="d-flex">
+                        <input type="number" name="quantity" value="{{ item.quantity }}" min="1" class="form-control form-control-sm me-1">
+                        <button type="submit" class="btn btn-sm btn-outline-secondary">Update</button>
+                    </form>
+                </td>
+                <td>₹{{ "%.2f"|format(item.product.price * item.quantity) }}</td>
+                <td>
+                    <form method="POST" action="{{ url_for('cart.remove_from_cart', cart_id=item.id) }}" onsubmit="return confirm('Remove this item?');">
+                        <button type="submit" class="btn btn-sm btn-outline-danger">Remove</button>
+                    </form>
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+
+<div class="d-flex justify-content-between align-items-center mt-4">
+    <h4>Total: ₹{{ "%.2f"|format(total) }}</h4>
+    <a href="{{ url_for('cart.checkout') }}" class="btn btn-accent btn-lg">Proceed to Checkout</a>
+</div>
+
+{% else %}
+<p class="text-muted">Your cart is empty. <a href="{{ url_for('products.list_products') }}">Browse products</a> to add something.</p>
+{% endif %} {% endblock %}

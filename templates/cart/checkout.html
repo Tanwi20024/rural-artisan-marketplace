@@ -1,0 +1,40 @@
+{% extends "base.html" %} {% block title %}Checkout - Rural Artisan Marketplace{% endblock %} {% block content %}
+
+<h2 class="mb-4">Checkout</h2>
+
+<div class="row">
+    <div class="col-md-7">
+        <div class="card p-4 mb-4">
+            <h5 class="mb-3">Shipping Address</h5>
+            <form method="POST">
+                <div class="mb-3">
+                    <textarea name="shipping_address" class="form-control" rows="4" placeholder="Enter your full delivery address" required>{{ current_user.address or '' }}</textarea>
+                </div>
+                <div class="mb-3">
+                    <p class="text-muted mb-1">Payment Method</p>
+                    <p class="fw-bold">Cash on Delivery</p>
+                </div>
+                <button type="submit" class="btn btn-accent w-100">Place Order</button>
+            </form>
+        </div>
+    </div>
+
+    <div class="col-md-5">
+        <div class="card p-4">
+            <h5 class="mb-3">Order Summary</h5>
+            {% for item in cart_items %}
+            <div class="d-flex justify-content-between mb-2">
+                <span>{{ item.product.name }} × {{ item.quantity }}</span>
+                <span>₹{{ "%.2f"|format(item.product.price * item.quantity) }}</span>
+            </div>
+            {% endfor %}
+            <hr>
+            <div class="d-flex justify-content-between fw-bold">
+                <span>Total</span>
+                <span>₹{{ "%.2f"|format(total) }}</span>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% endblock %}

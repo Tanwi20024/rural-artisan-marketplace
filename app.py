@@ -28,8 +28,10 @@ def create_app():
     # Register blueprints
     from blueprints.auth import auth_bp
     from blueprints.products import products_bp
+    from blueprints.cart import cart_bp
     app.register_blueprint(auth_bp)
     app.register_blueprint(products_bp)
+    app.register_blueprint(cart_bp)
 
     @app.route('/')
     def home():
