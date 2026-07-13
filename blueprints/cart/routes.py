@@ -127,6 +127,6 @@ def checkout():
         db.session.commit()
 
         flash('Order placed successfully! Pay on delivery.', 'success')
-        return redirect(url_for('products.list_products'))
+        return redirect(url_for('orders.my_orders'))
 
     return render_template('cart/checkout.html', cart_items=cart_items, total=total)

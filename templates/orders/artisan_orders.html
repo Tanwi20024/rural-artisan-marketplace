@@ -1,0 +1,46 @@
+{% extends "base.html" %} {% block title %}Received Orders - Rural Artisan Marketplace{% endblock %} {% block content %}
+
+<h2 class="mb-4">Received Orders</h2>
+
+{% if order_items %}
+<div class="table-responsive">
+    <table class="table align-middle">
+        <thead>
+            <tr>
+                <th>Order #</th>
+                <th>Product</th>
+                <th>Qty</th>
+                <th>Price</th>
+                <th>Status</th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for item in order_items %}
+            <tr>
+                <td>#{{ item.order_id }}</td>
+                <td>
+                    <a href="{{ url_for('products.product_detail', product_id=item.product_id) }}">{{ item.product.name }}</a>
+                </td>
+                <td>{{ item.quantity }}</td>
+                <td>₹{{ "%.2f"|format(item.price_at_purchase) }}</td>
+                <td>
+                    {% if item.status == 'Delivered' %}
+                    <span class="badge bg-success">Delivered</span> {% else %}
+                    <span class="badge bg-warning text-dark">Pending</span> {% endif %}
+                </td>
+                <td>
+                    {% if item.status != 'Delivered' %}
+                    <form method="POST" action="{{ url_for('orders.mark_delivered', item_id=item.id) }}">
+                        <button type="submit" class="btn btn-sm btn-accent">Mark as Delivered</button>
+                    </form>
+                    {% endif %}
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+{% else %}
+<p class="text-muted">No orders received yet.</p>
+{% endif %} {% endblock %}
