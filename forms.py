@@ -1,6 +1,7 @@
 from flask_wtf import FlaskForm
-from wtforms import StringField, PasswordField, SelectField, SubmitField
-from wtforms.validators import DataRequired, Email, EqualTo, Length
+from flask_wtf.file import FileField, FileAllowed
+from wtforms import StringField, PasswordField, SelectField, SubmitField, TextAreaField, DecimalField
+from wtforms.validators import DataRequired, Email, EqualTo, Length, NumberRange
 
 
 class RegisterForm(FlaskForm):
@@ -27,3 +28,24 @@ class LoginForm(FlaskForm):
     email = StringField('Email', validators=[DataRequired(), Email()])
     password = PasswordField('Password', validators=[DataRequired()])
     submit = SubmitField('Login')
+
+
+class ProductForm(FlaskForm):
+    """Form used by artisans to add or edit a product."""
+    name = StringField('Product Name', validators=[DataRequired(), Length(min=2, max=150)])
+    category = SelectField(
+        'Category',
+        choices=[
+            ('Pottery', 'Pottery'),
+            ('Handloom', 'Handloom'),
+            ('Wooden Crafts', 'Wooden Crafts'),
+            ('Bamboo Crafts', 'Bamboo Crafts'),
+            ('Paintings', 'Paintings'),
+            ('Jewelry', 'Jewelry'),
+        ],
+        validators=[DataRequired()]
+    )
+    description = TextAreaField('Description', validators=[Length(max=1000)])
+    price = DecimalField('Price (₹)', validators=[DataRequired(), NumberRange(min=1)])
+    image = FileField('Product Image', validators=[FileAllowed(['png', 'jpg', 'jpeg'], 'Images only!')])
+    submit = SubmitField('Save Product')

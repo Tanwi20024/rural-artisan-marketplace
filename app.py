@@ -25,12 +25,15 @@ def create_app():
         return User.query.get(int(user_id))
 
     # Register blueprints
+    # Register blueprints
     from blueprints.auth import auth_bp
+    from blueprints.products import products_bp
     app.register_blueprint(auth_bp)
+    app.register_blueprint(products_bp)
 
     @app.route('/')
     def home():
-        return render_template('base.html')
+        return render_template('home.html')
 
     return app
 

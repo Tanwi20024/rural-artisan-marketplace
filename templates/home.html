@@ -1,0 +1,30 @@
+{% extends "base.html" %} {% block title %}Home - Rural Artisan Marketplace{% endblock %} {% block content %}
+
+<div class="hero-section text-center mb-5">
+    <h1 class="fw-bold">Handmade with Heart, Sold with Pride</h1>
+    <p class="lead">Discover authentic handicrafts made by rural artisans across India — pottery, handloom, jewelry, and more.</p>
+    <a href="{{ url_for('products.list_products') }}" class="btn btn-light btn-lg mt-2">Browse Products</a>
+</div>
+
+<div class="row text-center">
+    <div class="col-md-4 mb-4">
+        <div class="card p-4 h-100">
+            <h5>🏺 Pottery</h5>
+            <p class="text-muted">Traditional clay work passed down through generations.</p>
+        </div>
+    </div>
+    <div class="col-md-4 mb-4">
+        <div class="card p-4 h-100">
+            <h5>🧵 Handloom</h5>
+            <p class="text-muted">Handwoven textiles crafted with care and precision.</p>
+        </div>
+    </div>
+    <div class="col-md-4 mb-4">
+        <div class="card p-4 h-100">
+            <h5>🪵 Wooden Crafts</h5>
+            <p class="text-muted">Intricately carved wooden art and utility items.</p>
+        </div>
+    </div>
+</div>
+
+{% endblock %}
