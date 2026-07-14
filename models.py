@@ -133,7 +133,8 @@ class OrderItem(db.Model):
     artisan_id = db.Column(db.Integer, db.ForeignKey('users.id'), nullable=False)
     quantity = db.Column(db.Integer, nullable=False)
     price_at_purchase = db.Column(db.Numeric(10, 2), nullable=False)
-    status = db.Column(db.String(20), default='Pending')  # 'Pending' or 'Delivered'
+    status = db.Column(db.String(20), default='Pending')  # Pending, Shipped, Out for Delivery, Delivered
+    updated_at = db.Column(db.DateTime, default=datetime.utcnow, onupdate=datetime.utcnow)
 
     def __repr__(self):
         return f'<OrderItem product={self.product_id} status={self.status}>'

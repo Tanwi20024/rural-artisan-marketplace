@@ -28,9 +28,13 @@
                 <td>{{ item.quantity }}</td>
                 <td>₹{{ "%.2f"|format(item.price_at_purchase) }}</td>
                 <td>
-                    {% if item.status == 'Delivered' %}
-                    <span class="badge bg-success">Delivered</span> {% else %}
-                    <span class="badge bg-warning text-dark">Pending</span> {% endif %}
+                    <div class="d-flex align-items-center gap-1">
+                        {% set steps = ['Pending', 'Shipped', 'Out for Delivery', 'Delivered'] %} {% set current_index = steps.index(item.status) %} {% for step in steps %}
+                        <span class="badge rounded-pill {% if loop.index0 <= current_index %}bg-success{% else %}bg-light text-muted border{% endif %}" style="font-size: 0.65rem;">
+                                {{ step }}
+                            </span> {% endfor %}
+                    </div>
+                    <small class="text-muted">Last updated: {{ item.updated_at.strftime('%d %b, %I:%M %p') if item.updated_at else '—' }}</small>
                 </td>
             </tr>
             {% endfor %}

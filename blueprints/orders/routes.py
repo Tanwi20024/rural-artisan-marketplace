@@ -30,17 +30,26 @@ def artisan_orders():
     return render_template('orders/artisan_orders.html', order_items=order_items)
 
 
-@orders_bp.route('/artisan/orders/<int:item_id>/deliver', methods=['POST'])
+# Defines the order status pipeline — used to determine the "next" status
+STATUS_FLOW = ['Pending', 'Shipped', 'Out for Delivery', 'Delivered']
+
+
+@orders_bp.route('/artisan/orders/<int:item_id>/advance', methods=['POST'])
 @login_required
-def mark_delivered(item_id):
-    """Artisan marks their own order item as delivered."""
+def advance_status(item_id):
+    """Artisan moves their order item to the next status in the pipeline."""
     order_item = OrderItem.query.get_or_404(item_id)
 
     if order_item.artisan_id != current_user.id:
         abort(403)
 
-    order_item.status = 'Delivered'
-    db.session.commit()
+    current_index = STATUS_FLOW.index(order_item.status)
 
-    flash('Order item marked as delivered.', 'success')
+    if current_index < len(STATUS_FLOW) - 1:
+        order_item.status = STATUS_FLOW[current_index + 1]
+        db.session.commit()
+        flash(f'Status updated to "{order_item.status}".', 'success')
+    else:
+        flash('This order is already delivered.', 'info')
+
     return redirect(url_for('orders.artisan_orders'))
