@@ -17,6 +17,7 @@
                 <th>Qty</th>
                 <th>Price</th>
                 <th>Status</th>
+                <th>Return</th>
             </tr>
         </thead>
         <tbody>
@@ -35,6 +36,14 @@
                             </span> {% endfor %}
                     </div>
                     <small class="text-muted">Last updated: {{ item.updated_at.strftime('%d %b, %I:%M %p') if item.updated_at else '—' }}</small>
+                </td>
+                <td>
+                    {% if item.status == 'Delivered' %} {% if item.return_request %} {% if item.return_request.status == 'Requested' %}
+                    <span class="badge bg-warning text-dark">Return Requested</span> {% elif item.return_request.status == 'Approved' %}
+                    <span class="badge bg-success">Return Approved</span> {% else %}
+                    <span class="badge bg-danger">Return Rejected</span> {% endif %} {% else %}
+                    <a href="{{ url_for('orders.request_return', item_id=item.id) }}" class="btn btn-sm btn-outline-secondary">Request Return</a> {% endif %} {% else %}
+                    <span class="text-muted small">—</span> {% endif %}
                 </td>
             </tr>
             {% endfor %}

@@ -3,8 +3,8 @@ from flask_login import login_required, current_user
 
 from blueprints.orders import orders_bp
 from extensions import db
-from models import Order, OrderItem
-
+from models import Order, OrderItem, ReturnRequest
+from forms import ReturnRequestForm
 
 @orders_bp.route('/my-orders')
 @login_required
@@ -52,4 +52,59 @@ def advance_status(item_id):
     else:
         flash('This order is already delivered.', 'info')
 
+    return redirect(url_for('orders.artisan_orders'))
+
+@orders_bp.route('/orders/<int:item_id>/return', methods=['GET', 'POST'])
+@login_required
+def request_return(item_id):
+    """Customer requests a return for a delivered order item."""
+    order_item = OrderItem.query.get_or_404(item_id)
+
+    if order_item.order.customer_id != current_user.id:
+        abort(403)
+
+    if order_item.status != 'Delivered':
+        flash('Only delivered items can be returned.', 'warning')
+        return redirect(url_for('orders.my_orders'))
+
+    if order_item.return_request:
+        flash('A return request already exists for this item.', 'info')
+        return redirect(url_for('orders.my_orders'))
+
+    form = ReturnRequestForm()
+
+    if form.validate_on_submit():
+        new_request = ReturnRequest(
+            order_item_id=order_item.id,
+            customer_id=current_user.id,
+            reason=form.reason.data
+        )
+        db.session.add(new_request)
+        db.session.commit()
+
+        flash('Return request submitted.', 'success')
+        return redirect(url_for('orders.my_orders'))
+
+    return render_template('orders/request_return.html', form=form, order_item=order_item)
+
+
+@orders_bp.route('/artisan/returns/<int:request_id>/<action>', methods=['POST'])
+@login_required
+def handle_return(request_id, action):
+    """Artisan approves or rejects a return request."""
+    return_request = ReturnRequest.query.get_or_404(request_id)
+
+    if return_request.order_item.artisan_id != current_user.id:
+        abort(403)
+
+    if action == 'approve':
+        return_request.status = 'Approved'
+        flash('Return request approved.', 'success')
+    elif action == 'reject':
+        return_request.status = 'Rejected'
+        flash('Return request rejected.', 'info')
+    else:
+        abort(400)
+
+    db.session.commit()
     return redirect(url_for('orders.artisan_orders'))

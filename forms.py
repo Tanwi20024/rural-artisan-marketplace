@@ -72,3 +72,8 @@ class ProfileForm(FlaskForm):
     state = StringField('State', validators=[Length(max=100)])
 
     submit = SubmitField('Save Changes')
+
+class ReturnRequestForm(FlaskForm):
+    """Form for a customer to request a return."""
+    reason = TextAreaField('Reason for Return', validators=[DataRequired(), Length(min=10, max=500)])
+    submit = SubmitField('Submit Return Request')

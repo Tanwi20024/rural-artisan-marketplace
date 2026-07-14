@@ -138,3 +138,19 @@ class OrderItem(db.Model):
 
     def __repr__(self):
         return f'<OrderItem product={self.product_id} status={self.status}>'
+
+class ReturnRequest(db.Model):
+    """A customer's request to return a delivered order item."""
+    __tablename__ = 'return_requests'
+
+    id = db.Column(db.Integer, primary_key=True)
+    order_item_id = db.Column(db.Integer, db.ForeignKey('order_items.id'), nullable=False, unique=True)
+    customer_id = db.Column(db.Integer, db.ForeignKey('users.id'), nullable=False)
+    reason = db.Column(db.String(500), nullable=False)
+    status = db.Column(db.String(20), default='Requested')  # Requested, Approved, Rejected
+    requested_at = db.Column(db.DateTime, default=datetime.utcnow)
+
+    order_item = db.relationship('OrderItem', backref=db.backref('return_request', uselist=False))
+
+    def __repr__(self):
+        return f'<ReturnRequest order_item={self.order_item_id} status={self.status}>'

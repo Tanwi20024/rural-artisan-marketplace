@@ -13,6 +13,7 @@
                 <th>Price</th>
                 <th>Status</th>
                 <th></th>
+                <th>Return Request</th>
             </tr>
         </thead>
         <tbody>
@@ -40,6 +41,20 @@
                         <button type="submit" class="btn btn-sm btn-accent">Mark as Delivered</button> {% endif %}
                     </form>
                     {% endif %}
+                </td>
+                <td>
+                    {% if item.return_request %} {% if item.return_request.status == 'Requested' %}
+                    <p class="small mb-1 text-muted">{{ item.return_request.reason }}</p>
+                    <form method="POST" action="{{ url_for('orders.handle_return', request_id=item.return_request.id, action='approve') }}" class="d-inline">
+                        <button type="submit" class="btn btn-sm btn-accent">Approve</button>
+                    </form>
+                    <form method="POST" action="{{ url_for('orders.handle_return', request_id=item.return_request.id, action='reject') }}" class="d-inline">
+                        <button type="submit" class="btn btn-sm btn-outline-danger">Reject</button>
+                    </form>
+                    {% elif item.return_request.status == 'Approved' %}
+                    <span class="badge bg-success">Approved</span> {% else %}
+                    <span class="badge bg-danger">Rejected</span> {% endif %} {% else %}
+                    <span class="text-muted small">—</span> {% endif %}
                 </td>
             </tr>
             {% endfor %}
