@@ -1,0 +1,27 @@
+{% extends "base.html" %} {% block title %}Write a Review - Rural Artisan Marketplace{% endblock %} {% block content %}
+
+<div class="row justify-content-center">
+    <div class="col-md-6">
+        <div class="card p-4">
+            <h3 class="mb-3">Review "{{ product.name }}"</h3>
+
+            <form method="POST">
+                {{ form.hidden_tag() }}
+
+                <div class="mb-3">
+                    {{ form.rating.label(class="form-label") }} {{ form.rating(class="form-select") }}
+                </div>
+
+                <div class="mb-3">
+                    {{ form.comment.label(class="form-label") }} {{ form.comment(class="form-control", rows=4, placeholder="Share your experience with this product...") }} {% for error in form.comment.errors %}
+                    <div class="text-danger small">{{ error }}</div>
+                    {% endfor %}
+                </div>
+
+                {{ form.submit(class="btn btn-accent w-100") }}
+            </form>
+        </div>
+    </div>
+</div>
+
+{% endblock %}

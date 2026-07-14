@@ -36,6 +36,9 @@
                 <h5 class="card-title">{{ product.name }}</h5>
                 <p class="text-muted small mb-1">{{ product.category }}</p>
                 <p class="fw-bold mb-2">₹{{ "%.2f"|format(product.price) }}</p>
+                {% if product.reviews %} {% set avg = (product.reviews | sum(attribute='rating')) / (product.reviews | length) %}
+                <p class="small text-warning mb-2">{{ '★' * (avg | round | int) }}{{ '☆' * (5 - (avg | round | int)) }} <span class="text-muted">({{ product.reviews|length }})</span></p>
+                {% endif %}
                 <a href="{{ url_for('products.product_detail', product_id=product.id) }}" class="btn btn-outline-secondary mt-auto">View Details</a>
             </div>
         </div>

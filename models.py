@@ -154,3 +154,24 @@ class ReturnRequest(db.Model):
 
     def __repr__(self):
         return f'<ReturnRequest order_item={self.order_item_id} status={self.status}>'
+
+class Review(db.Model):
+    """A customer's rating and review of a product they've purchased."""
+    __tablename__ = 'reviews'
+
+    id = db.Column(db.Integer, primary_key=True)
+    product_id = db.Column(db.Integer, db.ForeignKey('products.id'), nullable=False)
+    customer_id = db.Column(db.Integer, db.ForeignKey('users.id'), nullable=False)
+    rating = db.Column(db.Integer, nullable=False)  # 1 to 5
+    comment = db.Column(db.String(500))
+    created_at = db.Column(db.DateTime, default=datetime.utcnow)
+
+    product = db.relationship('Product', backref='reviews')
+    customer = db.relationship('User', backref='reviews')
+
+    __table_args__ = (
+        db.UniqueConstraint('product_id', 'customer_id', name='unique_review_per_customer_product'),
+    )
+
+    def __repr__(self):
+        return f'<Review product={self.product_id} rating={self.rating}>'

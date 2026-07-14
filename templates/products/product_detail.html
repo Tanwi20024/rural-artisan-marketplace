@@ -31,5 +31,35 @@
         </div>
     </div>
 </div>
+<hr class="my-5">
+
+<div class="row">
+    <div class="col-md-8">
+        <h4 class="mb-3">
+            Reviews {% if avg_rating %}
+            <span class="text-warning">{{ '★' * (avg_rating | round | int) }}{{ '☆' * (5 - (avg_rating | round | int)) }}</span>
+            <span class="text-muted small">({{ "%.1f"|format(avg_rating) }} out of 5, {{ reviews|length }} review{{ 's' if reviews|length != 1 }})</span> {% else %}
+            <span class="text-muted small">No reviews yet</span> {% endif %}
+        </h4>
+
+        {% if can_review %}
+        <a href="{{ url_for('products.add_review', product_id=product.id) }}" class="btn btn-accent btn-sm mb-3">Write a Review</a> {% elif already_reviewed %}
+        <p class="text-muted small">You've already reviewed this product.</p>
+        {% endif %} {% for review in reviews %}
+        <div class="border-bottom pb-3 mb-3">
+            <div class="d-flex justify-content-between">
+                <strong>{{ review.customer.name }}</strong>
+                <span class="text-warning">{{ '★' * review.rating }}{{ '☆' * (5 - review.rating) }}</span>
+            </div>
+            {% if review.comment %}
+            <p class="mb-1">{{ review.comment }}</p>
+            {% endif %}
+            <small class="text-muted">{{ review.created_at.strftime('%d %b %Y') }}</small>
+        </div>
+        {% else %}
+        <p class="text-muted">Be the first to review this product!</p>
+        {% endfor %}
+    </div>
+</div>
 
 {% endblock %}

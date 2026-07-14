@@ -77,3 +77,13 @@ class ReturnRequestForm(FlaskForm):
     """Form for a customer to request a return."""
     reason = TextAreaField('Reason for Return', validators=[DataRequired(), Length(min=10, max=500)])
     submit = SubmitField('Submit Return Request')
+
+class ReviewForm(FlaskForm):
+    """Form for a customer to leave a product review."""
+    rating = SelectField(
+        'Rating',
+        choices=[('5', '5 - Excellent'), ('4', '4 - Good'), ('3', '3 - Average'), ('2', '2 - Poor'), ('1', '1 - Very Poor')],
+        validators=[DataRequired()]
+    )
+    comment = TextAreaField('Comment', validators=[Length(max=500)])
+    submit = SubmitField('Submit Review')
