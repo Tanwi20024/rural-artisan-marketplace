@@ -22,7 +22,7 @@ def create_app():
 
     @login_manager.user_loader
     def load_user(user_id):
-        return User.query.get(int(user_id))
+        return db.session.get(User, int(user_id))
 
     # Register blueprints
     # Register blueprints
@@ -40,7 +40,7 @@ def create_app():
     @app.route('/')
     def home():
         return render_template('home.html')
-        
+
     @app.route('/about')
     def about():
         return render_template('about.html')
@@ -48,6 +48,19 @@ def create_app():
     @app.route('/contact')
     def contact():
         return render_template('contact.html')
+
+    @app.errorhandler(404)
+    def page_not_found(e):
+        return render_template('errors/404.html'), 404
+
+    @app.errorhandler(403)
+    def forbidden(e):
+        return render_template('errors/403.html'), 403
+
+    @app.errorhandler(500)
+    def internal_error(e):
+        db.session.rollback()
+        return render_template('errors/500.html'), 500
 
     return app
 

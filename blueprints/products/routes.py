@@ -103,11 +103,15 @@ def edit_product(product_id):
 @products_bp.route('/artisan/products/delete/<int:product_id>', methods=['POST'])
 @login_required
 def delete_product(product_id):
-    """Artisan deletes their own product."""
+    """Artisan deletes their own product, unless it has existing orders."""
     product = Product.query.get_or_404(product_id)
 
     if product.artisan_id != current_user.id:
         abort(403)
+
+    if product.order_items:
+        flash('This product cannot be deleted because it has existing orders. Consider marking it out of stock instead.', 'warning')
+        return redirect(url_for('products.product_detail', product_id=product.id))
 
     db.session.delete(product)
     db.session.commit()

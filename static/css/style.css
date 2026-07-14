@@ -10,6 +10,9 @@ body {
     color: var(--color-text);
 }
 
+
+/* Navbar */
+
 .navbar-custom {
     background-color: var(--color-primary);
 }
@@ -17,22 +20,32 @@ body {
 .navbar-custom .navbar-brand,
 .navbar-custom .nav-link {
     color: #FAF6F0 !important;
+    transition: color 0.2s ease;
 }
 
 .navbar-custom .nav-link:hover {
     color: #D7C9A7 !important;
 }
 
+
+/* Buttons */
+
 .btn-accent {
     background-color: var(--color-accent);
     color: white;
     border: none;
+    transition: all 0.25s ease;
 }
 
 .btn-accent:hover {
     background-color: #3a5233;
     color: white;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(74, 103, 65, 0.3);
 }
+
+
+/* Footer */
 
 .footer-custom {
     background-color: var(--color-primary);
@@ -44,6 +57,7 @@ body {
 .footer-custom a {
     color: #D7C9A7;
     text-decoration: none;
+    transition: color 0.2s ease;
 }
 
 .footer-custom a:hover {
@@ -51,14 +65,88 @@ body {
     text-decoration: underline;
 }
 
+
+/* Hero section with background image */
+
 .hero-section {
-    background-color: var(--color-accent);
+    background-image: linear-gradient(rgba(74, 103, 65, 0.75), rgba(74, 103, 65, 0.75)), url('/static/images/hero-bg.jpg');
+    background-size: cover;
+    background-position: center;
     color: white;
-    padding: 4rem 1rem;
+    padding: 5rem 1.5rem;
     border-radius: 0.5rem;
+    margin-bottom: 2rem;
 }
+
+.hero-overlay {
+    max-width: 700px;
+    margin: 0 auto;
+}
+
+
+/* Cards — smooth hover lift */
 
 .card {
     border: none;
     box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+    transition: transform 0.25s ease, box-shadow 0.25s ease;
+}
+
+.card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.12);
+}
+
+.category-card {
+    cursor: pointer;
+}
+
+.category-card:hover {
+    border: 1px solid var(--color-accent);
+}
+
+
+/* Product image zoom on hover */
+
+.card-img-top {
+    transition: transform 0.3s ease;
+    overflow: hidden;
+}
+
+.card:hover .card-img-top {
+    transform: scale(1.05);
+}
+
+
+/* Smooth page transitions */
+
+main {
+    animation: fadeIn 0.4s ease-in;
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(8px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+
+/* Alerts */
+
+.alert {
+    border-radius: 0.5rem;
+}
+
+
+/* Form focus states */
+
+.form-control:focus,
+.form-select:focus {
+    border-color: var(--color-accent);
+    box-shadow: 0 0 0 0.2rem rgba(74, 103, 65, 0.15);
 }
