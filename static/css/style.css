@@ -263,3 +263,56 @@ a {
 a:hover {
     color: var(--color-secondary);
 }
+
+
+/* Product cards */
+
+.product-image-wrap {
+    position: relative;
+    overflow: hidden;
+    border-radius: var(--radius-md) var(--radius-md) 0 0;
+}
+
+.product-image-wrap .card-img-top {
+    height: 220px;
+    object-fit: cover;
+    width: 100%;
+}
+
+.category-badge {
+    position: absolute;
+    top: 0.75rem;
+    left: 0.75rem;
+    background-color: var(--color-primary);
+    color: white;
+    font-size: 0.7rem;
+    text-transform: uppercase;
+    letter-spacing: 0.4px;
+}
+
+.wishlist-btn {
+    position: absolute;
+    top: 0.6rem;
+    right: 0.6rem;
+    width: 34px;
+    height: 34px;
+    border-radius: 50%;
+    border: none;
+    background-color: rgba(255, 255, 255, 0.9);
+    color: var(--color-primary);
+    font-size: 1.2rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.wishlist-btn:hover {
+    background-color: white;
+    transform: scale(1.1);
+}
+
+.product-card .card-title {
+    font-size: 1.05rem;
+}
