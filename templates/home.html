@@ -1,10 +1,62 @@
 {% extends "base.html" %} {% block title %}Home - Rural Artisan Marketplace{% endblock %} {% block content %}
 
-<div class="hero-section text-center mb-5">
-    <div class="hero-overlay">
-        <h1 class="fw-bold">Handmade with Heart, Sold with Pride</h1>
-        <p class="lead">Discover authentic handicrafts made by rural artisans across India — pottery, handloom, jewelry, and more.</p>
-        <a href="{{ url_for('products.list_products') }}" class="btn btn-light btn-lg mt-2">Browse Products</a>
+<div id="heroCarousel" class="carousel slide hero-carousel mb-5" data-bs-ride="carousel" data-bs-interval="4500">
+    <div class="carousel-inner">
+
+        <div class="carousel-item active">
+            <div class="hero-slide" style="background-image: linear-gradient(rgba(59,42,30,0.55), rgba(59,42,30,0.55)), url('{{ url_for('static', filename='images/hero-1.jpg') }}');">
+                <div class="hero-overlay text-center">
+                    <h1>Every Handmade Product Carries a Story</h1>
+                    <p class="lead">Discover authentic handicrafts made by rural artisans across India.</p>
+                    <a href="{{ url_for('products.list_products') }}" class="btn btn-light btn-lg mt-3">Browse Products</a>
+                </div>
+            </div>
+        </div>
+
+        <div class="carousel-item">
+            <div class="hero-slide" style="background-image: linear-gradient(rgba(59,42,30,0.55), rgba(59,42,30,0.55)), url('{{ url_for('static', filename='images/hero-2.jpg') }}');">
+                <div class="hero-overlay text-center">
+                    <h1>Supporting an Artisan Supports a Family</h1>
+                    <p class="lead">Every purchase directly uplifts a rural craftsperson and their community.</p>
+                    <a href="{{ url_for('products.list_products') }}" class="btn btn-light btn-lg mt-3">Browse Products</a>
+                </div>
+            </div>
+        </div>
+
+        <div class="carousel-item">
+            <div class="hero-slide" style="background-image: linear-gradient(rgba(59,42,30,0.55), rgba(59,42,30,0.55)), url('{{ url_for('static', filename='images/hero-3.jpg') }}');">
+                <div class="hero-overlay text-center">
+                    <h1>Crafted by Hands, Preserved by Hearts</h1>
+                    <p class="lead">Celebrating centuries-old traditions passed down through generations.</p>
+                    <a href="{{ url_for('products.list_products') }}" class="btn btn-light btn-lg mt-3">Browse Products</a>
+                </div>
+            </div>
+        </div>
+
+        <div class="carousel-item">
+            <div class="hero-slide" style="background-image: linear-gradient(rgba(59,42,30,0.55), rgba(59,42,30,0.55)), url('{{ url_for('static', filename='images/hero-4.jpg') }}');">
+                <div class="hero-overlay text-center">
+                    <h1>From Village Hands to Homes Across India</h1>
+                    <p class="lead">Bringing rural craftsmanship directly to you, one product at a time.</p>
+                    <a href="{{ url_for('products.list_products') }}" class="btn btn-light btn-lg mt-3">Browse Products</a>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+    <button class="carousel-control-prev" type="button" data-bs-target="#heroCarousel" data-bs-slide="prev">
+        <span class="carousel-control-prev-icon"></span>
+    </button>
+    <button class="carousel-control-next" type="button" data-bs-target="#heroCarousel" data-bs-slide="next">
+        <span class="carousel-control-next-icon"></span>
+    </button>
+
+    <div class="carousel-indicators">
+        <button type="button" data-bs-target="#heroCarousel" data-bs-slide-to="0" class="active"></button>
+        <button type="button" data-bs-target="#heroCarousel" data-bs-slide-to="1"></button>
+        <button type="button" data-bs-target="#heroCarousel" data-bs-slide-to="2"></button>
+        <button type="button" data-bs-target="#heroCarousel" data-bs-slide-to="3"></button>
     </div>
 </div>
 
