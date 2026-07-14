@@ -49,3 +49,26 @@ class ProductForm(FlaskForm):
     price = DecimalField('Price (₹)', validators=[DataRequired(), NumberRange(min=1)])
     image = FileField('Product Image', validators=[FileAllowed(['png', 'jpg', 'jpeg'], 'Images only!')])
     submit = SubmitField('Save Product')
+    
+class ProfileForm(FlaskForm):
+    """Profile form for customers and artisans."""
+    name = StringField('Full Name', validators=[DataRequired(), Length(min=2, max=100)])
+    phone = StringField('Phone Number', validators=[Length(max=15)])
+    address = StringField('Address', validators=[Length(max=255)])
+    shop_name = StringField('Shop Name', validators=[Length(max=150)])
+    bio = TextAreaField('Bio', validators=[Length(max=500)])
+    village = StringField('Village', validators=[Length(max=100)])
+    district = StringField('District', validators=[Length(max=100)])
+    state = StringField('State', validators=[Length(max=100)])
+    submit = SubmitField('Save Changes')
+    phone = StringField('Phone Number', validators=[Length(max=15)])
+    address = StringField('Address', validators=[Length(max=255)])
+
+    # Artisan-only fields (left blank/unused for customers)
+    shop_name = StringField('Shop Name', validators=[Length(max=150)])
+    bio = TextAreaField('Bio', validators=[Length(max=500)])
+    village = StringField('Village', validators=[Length(max=100)])
+    district = StringField('District', validators=[Length(max=100)])
+    state = StringField('State', validators=[Length(max=100)])
+
+    submit = SubmitField('Save Changes')
