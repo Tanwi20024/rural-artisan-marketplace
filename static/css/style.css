@@ -412,3 +412,18 @@ a:hover {
     justify-content: center;
     margin: 0 auto;
 }
+
+
+/* Cultural discovery */
+
+.craft-card {
+    cursor: pointer;
+}
+
+.craft-icon {
+    font-size: 2rem;
+}
+
+.craft-card:hover {
+    border: 1px solid var(--color-secondary);
+}

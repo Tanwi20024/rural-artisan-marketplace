@@ -87,4 +87,21 @@
     </div>
 </div>
 
+<div class="mt-5">
+    <h3 class="mb-4 text-center">Discover India's Crafts</h3>
+    <div class="row">
+        {% set crafts = [ ('Madhubani Painting', '🎨'), ('Warli Art', '🖌️'), ('Blue Pottery', '🏺'), ('Channapatna Toys', '🧸'), ('Kashmiri Shawls', '🧣'), ('Bidriware', '⚱️'), ('Banarasi Silk', '🧵'), ('Kutch Embroidery', '🪡'), ('Terracotta', '🏺') ] %} {%
+        for craft_name, icon in crafts %}
+        <div class="col-md-3 col-sm-6 mb-4">
+            <a href="{{ url_for('products.list_products', q=craft_name) }}" class="text-decoration-none text-dark">
+                <div class="card p-3 text-center h-100 craft-card">
+                    <div class="craft-icon">{{ icon }}</div>
+                    <p class="mb-0 mt-2 small fw-bold">{{ craft_name }}</p>
+                </div>
+            </a>
+        </div>
+        {% endfor %}
+    </div>
+</div>
+
 {% endblock %}
