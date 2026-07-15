@@ -1,24 +1,32 @@
-{% extends "base.html" %} {% block title %}Products - Rural Artisan Marketplace{% endblock %} {% block content %}
+```html {% extends "base.html" %} {% block title %}Products - Rural Artisan Marketplace{% endblock %} {% block content %}
 
 <div class="row mb-4">
-    <div class="col-md-8">
-        <form method="GET" class="d-flex">
-            <input type="text" name="q" class="form-control me-2" placeholder="Search products..." value="{{ search_term }}">
-            <button type="submit" class="btn btn-accent">Search</button>
-        </form>
-    </div>
-    <div class="col-md-4">
-        <form method="GET">
+    <form method="GET" class="row g-2 w-100">
+        <div class="col-md-6">
+            <input type="text" name="q" class="form-control" placeholder="Search products..." value="{{ search_term }}">
+        </div>
+        <div class="col-md-2">
+            <button type="submit" class="btn btn-accent w-100">Search</button>
+        </div>
+        <div class="col-md-2">
             <select name="category" class="form-select" onchange="this.form.submit()">
                 <option value="">All Categories</option>
                 {% for cat in categories %}
                     <option value="{{ cat }}" {% if cat == selected_category %}selected{% endif %}>{{ cat }}</option>
                 {% endfor %}
             </select>
-        </form>
-    </div>
+        </div>
+        <div class="col-md-2">
+            <select name="sort" class="form-select" onchange="this.form.submit()">
+                <option value="newest" {% if selected_sort == 'newest' %}selected{% endif %}>Newest</option>
+                <option value="price_low" {% if selected_sort == 'price_low' %}selected{% endif %}>Price: Low to High</option>
+                <option value="price_high" {% if selected_sort == 'price_high' %}selected{% endif %}>Price: High to Low</option>
+                <option value="best_rated" {% if selected_sort == 'best_rated' %}selected{% endif %}>Best Rated</option>
+                <option value="popular" {% if selected_sort == 'popular' %}selected{% endif %}>Most Popular</option>
+            </select>
+        </div>
+    </form>
 </div>
-
 {% if current_user.is_authenticated and current_user.is_artisan() %}
 <a href="{{ url_for('products.add_product') }}" class="btn btn-accent mb-4">+ Add New Product</a> {% endif %}
 
@@ -64,4 +72,4 @@
     {% endfor %}
 </div>
 
-{% endblock %}
+{% endblock %}. where to change ```

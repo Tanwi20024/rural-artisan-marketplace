@@ -10,8 +10,11 @@ from utils import save_product_image
 
 
 @products_bp.route('/products')
+@products_bp.route('/products')
 def list_products():
-    """Browse all products, with optional search and category filter."""
+    """Browse all products, with optional search, category filter, and sorting."""
+    from sqlalchemy import func
+
     query = Product.query
 
     search_term = request.args.get('q', '').strip()
@@ -22,7 +25,20 @@ def list_products():
     if category:
         query = query.filter_by(category=category)
 
-    products = query.order_by(Product.created_at.desc()).all()
+    sort_option = request.args.get('sort', 'newest').strip()
+
+    if sort_option == 'price_low':
+        query = query.order_by(Product.price.asc())
+    elif sort_option == 'price_high':
+        query = query.order_by(Product.price.desc())
+    elif sort_option == 'best_rated':
+        query = query.outerjoin(Review).group_by(Product.id).order_by(func.avg(Review.rating).desc())
+    elif sort_option == 'popular':
+        query = query.outerjoin(Review).group_by(Product.id).order_by(func.count(Review.id).desc())
+    else:
+        query = query.order_by(Product.created_at.desc())
+
+    products = query.all()
 
     categories = ['Pottery', 'Handloom', 'Wooden Crafts', 'Bamboo Crafts', 'Paintings', 'Jewelry']
 
@@ -31,7 +47,8 @@ def list_products():
         products=products,
         categories=categories,
         search_term=search_term,
-        selected_category=category
+        selected_category=category,
+        selected_sort=sort_option
     )
 
 
