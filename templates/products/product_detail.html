@@ -12,7 +12,7 @@
 
     <div class="col-md-7">
         <h2>{{ product.name }}</h2>
-        <p class="text-muted">{{ product.category }} · Sold by {{ product.artisan.name }}</p>
+        <p class="text-muted">{{ product.category }} · Sold by <a href="{{ url_for('profile.artisan_public_profile', artisan_id=product.artisan_id) }}">{{ product.artisan.name }}</a></p>
         <h4 class="fw-bold">₹{{ "%.2f"|format(product.price) }}</h4>
         <p>{{ product.description }}</p>
 

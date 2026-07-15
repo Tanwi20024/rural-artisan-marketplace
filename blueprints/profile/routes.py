@@ -9,6 +9,8 @@ from utils import save_product_image
 
 @profile_bp.route('/profile', methods=['GET', 'POST'])
 @login_required
+
+
 def view_profile():
     """View and edit the logged-in user's profile."""
     form = ProfileForm()
@@ -52,3 +54,13 @@ def view_profile():
             form.state.data = artisan_profile.state
 
     return render_template('profile/profile.html', form=form)
+
+@profile_bp.route('/artisan/<int:artisan_id>')
+def artisan_public_profile(artisan_id):
+    """Public-facing artisan profile page — 'Know Your Artisan'."""
+    from models import User, Product
+
+    artisan = User.query.filter_by(id=artisan_id, role='artisan').first_or_404()
+    products = Product.query.filter_by(artisan_id=artisan.id).order_by(Product.created_at.desc()).all()
+
+    return render_template('profile/artisan_public.html', artisan=artisan, products=products)
