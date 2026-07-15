@@ -58,6 +58,9 @@ class ArtisanProfile(db.Model):
     village = db.Column(db.String(100))
     district = db.Column(db.String(100))
     state = db.Column(db.String(100))
+    experience_years = db.Column(db.Integer)
+    specialization = db.Column(db.String(150))
+    profile_photo = db.Column(db.String(255))
 
     def __repr__(self):
         return f'<ArtisanProfile {self.shop_name}>'

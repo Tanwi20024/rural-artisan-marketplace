@@ -5,7 +5,7 @@ from blueprints.profile import profile_bp
 from extensions import db
 from models import ArtisanProfile
 from forms import ProfileForm
-
+from utils import save_product_image
 
 @profile_bp.route('/profile', methods=['GET', 'POST'])
 @login_required

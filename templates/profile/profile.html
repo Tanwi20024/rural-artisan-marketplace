@@ -5,7 +5,7 @@
         <div class="card p-4">
             <h3 class="mb-4">My Profile</h3>
 
-            <form method="POST">
+            <form method="POST" enctype="multipart/form-data">
                 {{ form.hidden_tag() }}
 
                 <h6 class="text-muted mb-3">Basic Information</h6>
@@ -53,7 +53,21 @@
                         {{ form.state.label(class="form-label") }} {{ form.state(class="form-control") }}
                     </div>
                 </div>
-                {% endif %} {{ form.submit(class="btn btn-accent w-100 mt-2") }}
+
+                <div class="row">
+                    <div class="col-md-6 mb-3">
+                        {{ form.experience_years.label(class="form-label") }} {{ form.experience_years(class="form-control", placeholder="e.g. 15") }}
+                    </div>
+                    <div class="col-md-6 mb-3">
+                        {{ form.specialization.label(class="form-label") }} {{ form.specialization(class="form-control", placeholder="e.g. Blue Pottery") }}
+                    </div>
+                </div>
+
+                <div class="mb-3">
+                    {{ form.profile_photo.label(class="form-label") }} {{ form.profile_photo(class="form-control") }} {% if current_user.artisan_profile and current_user.artisan_profile.profile_photo %}
+                    <small class="text-muted">Leave blank to keep current photo.</small> {% endif %}
+                </div>
+                {% endif %}{{ form.submit(class="btn btn-accent w-100 mt-2") }}
             </form>
         </div>
     </div>
