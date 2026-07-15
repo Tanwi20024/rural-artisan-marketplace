@@ -25,7 +25,7 @@
 <div class="row">
     {% for product in products %}
     <div class="col-md-4 col-sm-6 mb-4">
-        <div class="card h-100 product-card">
+        <div class="card h-100 product-card fade-on-scroll">
             <div class="product-image-wrap">
                 {% if product.image_filename %}
                 <img src="{{ url_for('static', filename='uploads/' + product.image_filename) }}" class="card-img-top" alt="{{ product.name }}"> {% else %}

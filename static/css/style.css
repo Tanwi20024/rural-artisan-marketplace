@@ -316,3 +316,45 @@ a:hover {
 .product-card .card-title {
     font-size: 1.05rem;
 }
+
+
+/* Back to top button */
+
+.back-to-top-btn {
+    display: none;
+    position: fixed;
+    bottom: 2rem;
+    right: 2rem;
+    width: 46px;
+    height: 46px;
+    border-radius: 50%;
+    background-color: var(--color-primary);
+    color: white;
+    border: none;
+    font-size: 1.3rem;
+    align-items: center;
+    justify-content: center;
+    box-shadow: var(--shadow-hover);
+    cursor: pointer;
+    z-index: 999;
+    transition: background-color 0.2s ease, transform 0.2s ease;
+}
+
+.back-to-top-btn:hover {
+    background-color: var(--color-secondary);
+    transform: translateY(-3px);
+}
+
+
+/* Scroll-triggered fade-in */
+
+.fade-on-scroll {
+    opacity: 0;
+    transform: translateY(24px);
+    transition: opacity 0.6s ease, transform 0.6s ease;
+}
+
+.fade-on-scroll.in-view {
+    opacity: 1;
+    transform: translateY(0);
+}
