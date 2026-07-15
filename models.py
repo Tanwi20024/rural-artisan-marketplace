@@ -76,6 +76,12 @@ class Product(db.Model):
     image_filename = db.Column(db.String(255))
     created_at = db.Column(db.DateTime, default=datetime.utcnow)
 
+    # Story / cultural storytelling fields
+    story = db.Column(db.Text)
+    artisan_message = db.Column(db.Text)
+    origin_region = db.Column(db.String(150))
+    video_url = db.Column(db.String(255))
+
     # Relationships
     cart_entries = db.relationship('Cart', backref='product', cascade='all, delete-orphan')
     order_items = db.relationship('OrderItem', backref='product', lazy=True)
@@ -139,6 +145,7 @@ class OrderItem(db.Model):
     def __repr__(self):
         return f'<OrderItem product={self.product_id} status={self.status}>'
 
+
 class ReturnRequest(db.Model):
     """A customer's request to return a delivered order item."""
     __tablename__ = 'return_requests'
@@ -154,6 +161,7 @@ class ReturnRequest(db.Model):
 
     def __repr__(self):
         return f'<ReturnRequest order_item={self.order_item_id} status={self.status}>'
+
 
 class Review(db.Model):
     """A customer's rating and review of a product they've purchased."""

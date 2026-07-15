@@ -48,6 +48,12 @@ class ProductForm(FlaskForm):
     description = TextAreaField('Description', validators=[Length(max=1000)])
     price = DecimalField('Price (₹)', validators=[DataRequired(), NumberRange(min=1)])
     image = FileField('Product Image', validators=[FileAllowed(['png', 'jpg', 'jpeg'], 'Images only!')])
+
+    story = TextAreaField('The Story Behind This Craft', validators=[Length(max=2000)])
+    artisan_message = TextAreaField('A Message From You (Optional)', validators=[Length(max=1000)])
+    origin_region = StringField('Region of Origin', validators=[Length(max=150)])
+    video_url = StringField('YouTube Video URL (Optional)', validators=[Length(max=255)])
+
     submit = SubmitField('Save Product')
     
 class ProfileForm(FlaskForm):

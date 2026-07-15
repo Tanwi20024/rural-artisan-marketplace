@@ -82,7 +82,11 @@ def add_product():
             category=form.category.data,
             description=form.description.data,
             price=form.price.data,
-            image_filename=image_filename
+            image_filename=image_filename,
+            story=form.story.data,
+            artisan_message=form.artisan_message.data,
+            origin_region=form.origin_region.data,
+            video_url=form.video_url.data
         )
         db.session.add(new_product)
         db.session.commit()
@@ -109,6 +113,10 @@ def edit_product(product_id):
         product.category = form.category.data
         product.description = form.description.data
         product.price = form.price.data
+        product.story = form.story.data
+        product.artisan_message = form.artisan_message.data
+        product.origin_region = form.origin_region.data
+        product.video_url = form.video_url.data
 
         if form.image.data:
             new_image = save_product_image(form.image.data)

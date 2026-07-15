@@ -35,6 +35,25 @@
                     {% endfor %}
                 </div>
 
+                <hr class="my-4">
+                <h6 class="text-muted mb-3">Tell the Story (Optional but Recommended)</h6>
+
+                <div class="mb-3">
+                    {{ form.story.label(class="form-label") }} {{ form.story(class="form-control", rows=4, placeholder="Share the history and cultural significance of this craft...") }}
+                </div>
+
+                <div class="mb-3">
+                    {{ form.origin_region.label(class="form-label") }} {{ form.origin_region(class="form-control", placeholder="e.g. Khurja, Uttar Pradesh") }}
+                </div>
+
+                <div class="mb-3">
+                    {{ form.artisan_message.label(class="form-label") }} {{ form.artisan_message(class="form-control", rows=3, placeholder="A personal note to the customer...") }}
+                </div>
+
+                <div class="mb-3">
+                    {{ form.video_url.label(class="form-label") }} {{ form.video_url(class="form-control", placeholder="https://youtube.com/watch?v=...") }}
+                </div>
+
                 {{ form.submit(class="btn btn-accent w-100") }}
             </form>
         </div>

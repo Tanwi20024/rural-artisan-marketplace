@@ -9,6 +9,7 @@
         </div>
         {% endif %}
     </div>
+
     <div class="col-md-7">
         <h2>{{ product.name }}</h2>
         <p class="text-muted">{{ product.category }} · Sold by {{ product.artisan.name }}</p>
@@ -30,36 +31,65 @@
             <a href="{{ url_for('products.list_products') }}">&larr; Back to Products</a>
         </div>
     </div>
-</div>
-<hr class="my-5">
+    {% if product.story or product.artisan_message %}
+    <div class="row mt-5">
+        <div class="col-12">
+            <div class="card p-4 story-card">
+                <button class="btn btn-link text-decoration-none p-0 d-flex justify-content-between align-items-center w-100" type="button" data-bs-toggle="collapse" data-bs-target="#storySection">
+                    <h4 class="mb-0">📖 The Story Behind This Craft</h4>
+                    <span class="story-toggle-icon">▼</span>
+                </button>
 
-<div class="row">
-    <div class="col-md-8">
-        <h4 class="mb-3">
-            Reviews {% if avg_rating %}
-            <span class="text-warning">{{ '★' * (avg_rating | round | int) }}{{ '☆' * (5 - (avg_rating | round | int)) }}</span>
-            <span class="text-muted small">({{ "%.1f"|format(avg_rating) }} out of 5, {{ reviews|length }} review{{ 's' if reviews|length != 1 }})</span> {% else %}
-            <span class="text-muted small">No reviews yet</span> {% endif %}
-        </h4>
-
-        {% if can_review %}
-        <a href="{{ url_for('products.add_review', product_id=product.id) }}" class="btn btn-accent btn-sm mb-3">Write a Review</a> {% elif already_reviewed %}
-        <p class="text-muted small">You've already reviewed this product.</p>
-        {% endif %} {% for review in reviews %}
-        <div class="border-bottom pb-3 mb-3">
-            <div class="d-flex justify-content-between">
-                <strong>{{ review.customer.name }}</strong>
-                <span class="text-warning">{{ '★' * review.rating }}{{ '☆' * (5 - review.rating) }}</span>
+                <div class="collapse mt-3" id="storySection">
+                    {% if product.origin_region %}
+                    <p class="text-muted mb-2"><strong>Origin:</strong> {{ product.origin_region }}</p>
+                    {% endif %} {% if product.story %}
+                    <p>{{ product.story }}</p>
+                    {% endif %} {% if product.artisan_message %}
+                    <blockquote class="artisan-quote">
+                        "{{ product.artisan_message }}"
+                        <footer class="blockquote-footer mt-1">{{ product.artisan.name }}</footer>
+                    </blockquote>
+                    {% endif %} {% if product.video_url %}
+                    <div class="ratio ratio-16x9 mt-3">
+                        <iframe src="{{ product.video_url.replace('watch?v=', 'embed/') }}" title="Craft video" allowfullscreen></iframe>
+                    </div>
+                    {% endif %}
+                </div>
             </div>
-            {% if review.comment %}
-            <p class="mb-1">{{ review.comment }}</p>
-            {% endif %}
-            <small class="text-muted">{{ review.created_at.strftime('%d %b %Y') }}</small>
         </div>
-        {% else %}
-        <p class="text-muted">Be the first to review this product!</p>
-        {% endfor %}
     </div>
-</div>
+    {% endif %}
 
-{% endblock %}
+    <hr class="my-5">
+
+    <div class="row">
+        <div class="col-md-8">
+            <h4 class="mb-3">
+                Reviews {% if avg_rating %}
+                <span class="text-warning">{{ '★' * (avg_rating | round | int) }}{{ '☆' * (5 - (avg_rating | round | int)) }}</span>
+                <span class="text-muted small">({{ "%.1f"|format(avg_rating) }} out of 5, {{ reviews|length }} review{{ 's' if reviews|length != 1 }})</span> {% else %}
+                <span class="text-muted small">No reviews yet</span> {% endif %}
+            </h4>
+
+            {% if can_review %}
+            <a href="{{ url_for('products.add_review', product_id=product.id) }}" class="btn btn-accent btn-sm mb-3">Write a Review</a> {% elif already_reviewed %}
+            <p class="text-muted small">You've already reviewed this product.</p>
+            {% endif %} {% for review in reviews %}
+            <div class="border-bottom pb-3 mb-3">
+                <div class="d-flex justify-content-between">
+                    <strong>{{ review.customer.name }}</strong>
+                    <span class="text-warning">{{ '★' * review.rating }}{{ '☆' * (5 - review.rating) }}</span>
+                </div>
+                {% if review.comment %}
+                <p class="mb-1">{{ review.comment }}</p>
+                {% endif %}
+                <small class="text-muted">{{ review.created_at.strftime('%d %b %Y') }}</small>
+            </div>
+            {% else %}
+            <p class="text-muted">Be the first to review this product!</p>
+            {% endfor %}
+        </div>
+    </div>
+
+    {% endblock %}

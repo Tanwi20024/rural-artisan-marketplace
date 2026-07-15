@@ -358,3 +358,27 @@ a:hover {
     opacity: 1;
     transform: translateY(0);
 }
+
+
+/* Story section */
+
+.story-card {
+    background-color: var(--color-surface);
+}
+
+.story-toggle-icon {
+    transition: transform 0.3s ease;
+    color: var(--color-primary);
+}
+
+[aria-expanded="true"] .story-toggle-icon {
+    transform: rotate(180deg);
+}
+
+.artisan-quote {
+    border-left: 3px solid var(--color-secondary);
+    padding-left: 1rem;
+    font-style: italic;
+    color: var(--color-text-muted);
+    margin: 1rem 0;
+}
