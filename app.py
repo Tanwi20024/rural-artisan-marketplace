@@ -39,7 +39,16 @@ def create_app():
 
     @app.route('/')
     def home():
-        return render_template('home.html')
+        from flask import session
+        from models import Product
+
+        recently_viewed_ids = session.get('recently_viewed', [])
+        recently_viewed_products = []
+        if recently_viewed_ids:
+            products_by_id = {p.id: p for p in Product.query.filter(Product.id.in_(recently_viewed_ids)).all()}
+            recently_viewed_products = [products_by_id[pid] for pid in recently_viewed_ids if pid in products_by_id]
+
+        return render_template('home.html', recently_viewed_products=recently_viewed_products)
 
     @app.route('/about')
     def about():

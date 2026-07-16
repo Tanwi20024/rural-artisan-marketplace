@@ -61,7 +61,15 @@ def list_products():
 @products_bp.route('/products/<int:product_id>')
 def product_detail(product_id):
     """View details of a single product, with reviews and purchase eligibility."""
+    from flask import session
+
     product = Product.query.get_or_404(product_id)
+
+    # Track recently viewed products in the session (most recent first, max 6)
+    recently_viewed = session.get('recently_viewed', [])
+    recently_viewed = [pid for pid in recently_viewed if pid != product.id]
+    recently_viewed.insert(0, product.id)
+    session['recently_viewed'] = recently_viewed[:6]
 
     reviews = Review.query.filter_by(product_id=product.id).order_by(Review.created_at.desc()).all()
     avg_rating = sum(r.rating for r in reviews) / len(reviews) if reviews else None

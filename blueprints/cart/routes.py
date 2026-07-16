@@ -3,8 +3,7 @@ from flask_login import login_required, current_user
 
 from blueprints.cart import cart_bp
 from extensions import db
-from models import Cart, Product, Wishlist
-
+from models import Cart, Product, Wishlist, Order, OrderItem
 
 @cart_bp.route('/cart')
 @login_required
