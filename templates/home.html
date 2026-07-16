@@ -125,7 +125,7 @@
             <a href="{{ url_for('products.product_detail', product_id=product.id) }}" class="text-decoration-none text-dark">
                 <div class="card h-100 product-card">
                     {% if product.image_filename %}
-                    <img src="{{ url_for('static', filename='uploads/' + product.image_filename) }}" class="card-img-top" style="height: 140px; object-fit: cover;" alt="{{ product.name }}"> {% else %}
+                    <img src="{{ url_for('static', filename='uploads/' + product.image_filename) }}" class="card-img-top" style="height: 140px; object-fit: cover;" alt="{{ product.name }}" loading="lazy"> {% else %}
                     <div class="bg-light d-flex align-items-center justify-content-center" style="height: 140px;">
                         <span class="text-muted small">No Image</span>
                     </div>
@@ -149,7 +149,7 @@
             <a href="{{ url_for('products.product_detail', product_id=product.id) }}" class="text-decoration-none text-dark">
                 <div class="card h-100 product-card">
                     {% if product.image_filename %}
-                    <img src="{{ url_for('static', filename='uploads/' + product.image_filename) }}" class="card-img-top" style="height: 140px; object-fit: cover;" alt="{{ product.name }}"> {% else %}
+                    <img src="{{ url_for('static', filename='uploads/' + product.image_filename) }}" class="card-img-top" style="height: 140px; object-fit: cover;" alt="{{ product.name }}" loading="lazy"> {% else %}
                     <div class="bg-light d-flex align-items-center justify-content-center" style="height: 140px;">
                         <span class="text-muted small">No Image</span>
                     </div>
@@ -173,7 +173,7 @@
             <a href="{{ url_for('products.product_detail', product_id=product.id) }}" class="text-decoration-none text-dark">
                 <div class="card h-100 product-card">
                     {% if product.image_filename %}
-                    <img src="{{ url_for('static', filename='uploads/' + product.image_filename) }}" class="card-img-top" style="height: 140px; object-fit: cover;" alt="{{ product.name }}"> {% else %}
+                    <img src="{{ url_for('static', filename='uploads/' + product.image_filename) }}" class="card-img-top" style="height: 140px; object-fit: cover;" alt="{{ product.name }}" loading="lazy"> {% else %}
                     <div class="bg-light d-flex align-items-center justify-content-center" style="height: 140px;">
                         <span class="text-muted small">No Image</span>
                     </div>
@@ -197,7 +197,7 @@
             <a href="{{ url_for('products.product_detail', product_id=product.id) }}" class="text-decoration-none text-dark">
                 <div class="card h-100 product-card">
                     {% if product.image_filename %}
-                    <img src="{{ url_for('static', filename='uploads/' + product.image_filename) }}" class="card-img-top" style="height: 140px; object-fit: cover;" alt="{{ product.name }}"> {% else %}
+                    <img src="{{ url_for('static', filename='uploads/' + product.image_filename) }}" class="card-img-top" style="height: 140px; object-fit: cover;" alt="{{ product.name }}" loading="lazy"> {% else %}
                     <div class="bg-light d-flex align-items-center justify-content-center" style="height: 140px;">
                         <span class="text-muted small">No Image</span>
                     </div>
@@ -221,7 +221,7 @@
             <a href="{{ url_for('profile.artisan_public_profile', artisan_id=artisan.id) }}" class="text-decoration-none text-dark">
                 <div class="card p-3 text-center h-100">
                     {% if artisan.artisan_profile and artisan.artisan_profile.profile_photo %}
-                    <img src="{{ url_for('static', filename='uploads/' + artisan.artisan_profile.profile_photo) }}" class="artisan-avatar mb-2" style="width: 80px; height: 80px;" alt="{{ artisan.name }}"> {% else %}
+                    <img src="{{ url_for('static', filename='uploads/' + artisan.artisan_profile.profile_photo) }}" class="artisan-avatar mb-2" style="width: 80px; height: 80px;" alt="{{ artisan.name }}" loading="lazy"> {% else %}
                     <div class="artisan-avatar-placeholder mb-2" style="width: 80px; height: 80px; font-size: 1.8rem;">{{ artisan.name[0] }}</div>
                     {% endif %}
                     <p class="fw-bold mb-1">{{ artisan.artisan_profile.shop_name or artisan.name }}</p>

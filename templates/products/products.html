@@ -1,4 +1,4 @@
-```html {% extends "base.html" %} {% block title %}Products - Rural Artisan Marketplace{% endblock %} {% block content %}
+{% extends "base.html" %} {% block title %}Products - Rural Artisan Marketplace{% endblock %} {% block content %}
 
 <div class="row mb-4">
     <form method="GET" class="row g-2 w-100">
@@ -36,7 +36,7 @@
         <div class="card h-100 product-card fade-on-scroll">
             <div class="product-image-wrap">
                 {% if product.image_filename %}
-                <img src="{{ url_for('static', filename='uploads/' + product.image_filename) }}" class="card-img-top" alt="{{ product.name }}"> {% else %}
+                <img src="{{ url_for('static', filename='uploads/' + product.image_filename) }}" class="card-img-top" alt="{{ product.name }}" loading="lazy"> {% else %}
                 <div class="bg-light d-flex align-items-center justify-content-center" style="height: 220px;">
                     <span class="text-muted">No Image</span>
                 </div>
@@ -75,4 +75,4 @@
     {% endfor %}
 </div>
 
-{% endblock %}. where to change ```
+{% endblock %}.

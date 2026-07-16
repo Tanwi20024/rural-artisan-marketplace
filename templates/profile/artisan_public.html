@@ -4,7 +4,7 @@
     <div class="col-md-8">
         <div class="card p-4 text-center artisan-hero">
             {% if artisan.artisan_profile and artisan.artisan_profile.profile_photo %}
-            <img src="{{ url_for('static', filename='uploads/' + artisan.artisan_profile.profile_photo) }}" class="artisan-avatar mb-3" alt="{{ artisan.name }}"> {% else %}
+            <img src="{{ url_for('static', filename='uploads/' + artisan.artisan_profile.profile_photo) }}" class="artisan-avatar mb-3" alt="{{ artisan.name }}" loading="lazy"> {% else %}
             <div class="artisan-avatar-placeholder mb-3">{{ artisan.name[0] }}</div>
             {% endif %}
 
@@ -50,7 +50,7 @@
         <div class="card h-100 product-card">
             <div class="product-image-wrap">
                 {% if product.image_filename %}
-                <img src="{{ url_for('static', filename='uploads/' + product.image_filename) }}" class="card-img-top" alt="{{ product.name }}"> {% else %}
+                <img src="{{ url_for('static', filename='uploads/' + product.image_filename) }}" class="card-img-top" alt="{{ product.name }}" loading="lazy"> {% else %}
                 <div class="bg-light d-flex align-items-center justify-content-center" style="height: 220px;">
                     <span class="text-muted">No Image</span>
                 </div>

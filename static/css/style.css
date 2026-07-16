@@ -469,3 +469,21 @@ a:hover {
 .testimonial-card {
     background-color: var(--color-surface);
 }
+
+
+/* Notifications */
+
+.notification-badge {
+    position: absolute;
+    top: -2px;
+    right: -6px;
+    background-color: #c0392b;
+    color: white;
+    font-size: 0.65rem;
+    border-radius: 50%;
+    width: 16px;
+    height: 16px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}

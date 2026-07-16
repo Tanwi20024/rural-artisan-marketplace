@@ -28,3 +28,12 @@ def save_product_image(file):
         return unique_filename
 
     return None
+
+def create_notification(user_id, message, link=None):
+    """Helper to create an in-app notification for a user."""
+    from extensions import db
+    from models import Notification
+
+    notification = Notification(user_id=user_id, message=message, link=link)
+    db.session.add(notification)
+    db.session.commit()

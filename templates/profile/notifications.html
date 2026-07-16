@@ -1,0 +1,16 @@
+{% extends "base.html" %} {% block title %}Notifications - Rural Artisan Marketplace{% endblock %} {% block content %}
+
+<h3 class="mb-4">Notifications</h3>
+
+<div class="list-group">
+    {% for n in notifications %}
+    <a href="{{ n.link or '#' }}" class="list-group-item list-group-item-action">
+        <p class="mb-1">{{ n.message }}</p>
+        <small class="text-muted">{{ n.created_at.strftime('%d %b %Y, %I:%M %p') }}</small>
+    </a>
+    {% else %}
+    <p class="text-muted">You have no notifications yet.</p>
+    {% endfor %}
+</div>
+
+{% endblock %}

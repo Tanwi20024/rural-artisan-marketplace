@@ -197,7 +197,7 @@ class Wishlist(db.Model):
     added_at = db.Column(db.DateTime, default=datetime.utcnow)
 
     customer = db.relationship('User', backref='wishlist_items')
-    product = db.relationship('Product', backref='wishlisted_by')
+    product = db.relationship('Product', backref=db.backref('wishlisted_by', cascade='all, delete-orphan'))
 
     __table_args__ = (
         db.UniqueConstraint('customer_id', 'product_id', name='unique_wishlist_item'),
@@ -216,3 +216,19 @@ class NewsletterSubscriber(db.Model):
 
     def __repr__(self):
         return f'<NewsletterSubscriber {self.email}>'
+
+class Notification(db.Model):
+    """In-app notifications for a user (order updates, etc.)."""
+    __tablename__ = 'notifications'
+
+    id = db.Column(db.Integer, primary_key=True)
+    user_id = db.Column(db.Integer, db.ForeignKey('users.id'), nullable=False)
+    message = db.Column(db.String(255), nullable=False)
+    link = db.Column(db.String(255))
+    is_read = db.Column(db.Boolean, default=False)
+    created_at = db.Column(db.DateTime, default=datetime.utcnow)
+
+    user = db.relationship('User', backref='notifications')
+
+    def __repr__(self):
+        return f'<Notification user={self.user_id} read={self.is_read}>'

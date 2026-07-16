@@ -64,3 +64,17 @@ def artisan_public_profile(artisan_id):
     products = Product.query.filter_by(artisan_id=artisan.id).order_by(Product.created_at.desc()).all()
 
     return render_template('profile/artisan_public.html', artisan=artisan, products=products)
+
+@profile_bp.route('/notifications')
+@login_required
+def view_notifications():
+    """Show all notifications for the logged-in user, mark as read."""
+    from models import Notification
+
+    notifications = Notification.query.filter_by(user_id=current_user.id).order_by(Notification.created_at.desc()).limit(20).all()
+
+    for n in notifications:
+        n.is_read = True
+    db.session.commit()
+
+    return render_template('profile/notifications.html', notifications=notifications)

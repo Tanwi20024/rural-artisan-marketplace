@@ -48,6 +48,14 @@ def advance_status(item_id):
     if current_index < len(STATUS_FLOW) - 1:
         order_item.status = STATUS_FLOW[current_index + 1]
         db.session.commit()
+
+        from utils import create_notification
+        create_notification(
+            user_id=order_item.order.customer_id,
+            message=f'Your order for "{order_item.product.name}" is now {order_item.status}.',
+            link=url_for('orders.my_orders')
+        )
+
         flash(f'Status updated to "{order_item.status}".', 'success')
     else:
         flash('This order is already delivered.', 'info')
@@ -107,4 +115,11 @@ def handle_return(request_id, action):
         abort(400)
 
     db.session.commit()
+
+    from utils import create_notification
+    create_notification(
+        user_id=return_request.customer_id,
+        message=f'Your return request for "{return_request.order_item.product.name}" was {return_request.status.lower()}.',
+        link=url_for('orders.my_orders')
+    )
     return redirect(url_for('orders.artisan_orders'))
