@@ -435,3 +435,18 @@ a:hover {
     color: #c0392b;
     background-color: white;
 }
+
+
+/* Social impact stats */
+
+.impact-stats {
+    background-color: var(--color-surface);
+    border-radius: var(--radius-md);
+    padding: 1.5rem 0.5rem;
+    box-shadow: var(--shadow-soft);
+}
+
+.impact-stats .fs-3 {
+    color: var(--color-primary);
+    font-family: var(--font-heading);
+}

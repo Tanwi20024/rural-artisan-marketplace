@@ -60,6 +60,35 @@
     </div>
 </div>
 
+{% if impact_stats %}
+<div class="row text-center mb-5 impact-stats">
+    <div class="col-4 col-md-2 mb-3">
+        <div class="fw-bold fs-3">{{ impact_stats.artisans }}</div>
+        <div class="text-muted small">Artisans</div>
+    </div>
+    <div class="col-4 col-md-2 mb-3">
+        <div class="fw-bold fs-3">{{ impact_stats.products }}</div>
+        <div class="text-muted small">Products Listed</div>
+    </div>
+    <div class="col-4 col-md-2 mb-3">
+        <div class="fw-bold fs-3">{{ impact_stats.villages }}</div>
+        <div class="text-muted small">Villages Connected</div>
+    </div>
+    <div class="col-4 col-md-2 mb-3">
+        <div class="fw-bold fs-3">{{ impact_stats.orders }}</div>
+        <div class="text-muted small">Orders Delivered</div>
+    </div>
+    <div class="col-4 col-md-2 mb-3">
+        <div class="fw-bold fs-3">{{ impact_stats.states }}</div>
+        <div class="text-muted small">States Covered</div>
+    </div>
+    <div class="col-4 col-md-2 mb-3">
+        <div class="fw-bold fs-3">{{ impact_stats.families }}</div>
+        <div class="text-muted small">Families Supported</div>
+    </div>
+</div>
+{% endif %}
+
 <div class="row text-center">
     <div class="col-md-4 mb-4">
         <a href="{{ url_for('products.list_products', category='Pottery') }}" class="text-decoration-none text-dark">

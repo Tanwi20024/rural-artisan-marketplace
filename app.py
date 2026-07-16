@@ -1,6 +1,7 @@
 from flask import Flask, render_template
 from config import Config
 from extensions import db, login_manager, migrate
+from sqlalchemy import func
 
 
 def create_app():
@@ -41,8 +42,7 @@ def create_app():
     def home():
         from flask import session
         from flask_login import current_user
-        from models import Product, Order, OrderItem, Review
-
+        from models import Product, Order, OrderItem, Review, User, ArtisanProfile
         recently_viewed_ids = session.get('recently_viewed', [])
         recently_viewed_products = []
         if recently_viewed_ids:
@@ -89,13 +89,38 @@ def create_app():
             .all()
         )
 
+        artisans_count = User.query.filter_by(role='artisan').count()
+        products_count = Product.query.count()
+        orders_count = Order.query.count()
+
+        villages_count = (
+            db.session.query(func.count(func.distinct(ArtisanProfile.village)))
+            .filter(ArtisanProfile.village.isnot(None), ArtisanProfile.village != '')
+            .scalar()
+        )
+        states_count = (
+            db.session.query(func.count(func.distinct(ArtisanProfile.state)))
+            .filter(ArtisanProfile.state.isnot(None), ArtisanProfile.state != '')
+            .scalar()
+        )
+
+        impact_stats = {
+            'artisans': artisans_count,
+            'products': products_count,
+            'villages': villages_count or 0,
+            'orders': orders_count,
+            'states': states_count or 0,
+            'families': artisans_count
+        }
+
         return render_template(
             'home.html',
             recently_viewed_products=recently_viewed_products,
             recommended_products=recommended_products,
             new_arrivals=new_arrivals,
             trending_products=trending_products,
-            featured_artisans=featured_artisans
+            featured_artisans=featured_artisans,
+            impact_stats=impact_stats
         )
 
     @app.route('/about')
