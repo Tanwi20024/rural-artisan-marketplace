@@ -186,3 +186,22 @@ class Review(db.Model):
 
     def __repr__(self):
         return f'<Review product={self.product_id} rating={self.rating}>'
+
+class Wishlist(db.Model):
+    """Products a customer has saved to their wishlist."""
+    __tablename__ = 'wishlist'
+
+    id = db.Column(db.Integer, primary_key=True)
+    customer_id = db.Column(db.Integer, db.ForeignKey('users.id'), nullable=False)
+    product_id = db.Column(db.Integer, db.ForeignKey('products.id'), nullable=False)
+    added_at = db.Column(db.DateTime, default=datetime.utcnow)
+
+    customer = db.relationship('User', backref='wishlist_items')
+    product = db.relationship('Product', backref='wishlisted_by')
+
+    __table_args__ = (
+        db.UniqueConstraint('customer_id', 'product_id', name='unique_wishlist_item'),
+    )
+
+    def __repr__(self):
+        return f'<Wishlist customer={self.customer_id} product={self.product_id}>'

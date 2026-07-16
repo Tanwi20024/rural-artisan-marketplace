@@ -45,7 +45,10 @@
                 <span class="badge category-badge">{{ product.category }}</span>
 
                 <!-- Wishlist icon: visual only for now, functionality added in a later module -->
-                <button class="wishlist-btn" type="button" title="Save to wishlist (coming soon)">♡</button>
+                {% if current_user.is_authenticated and current_user.is_customer() %}
+                <button class="wishlist-btn" type="button" data-product-id="{{ product.id }}" title="Save to wishlist" onclick="toggleWishlist(this, {{ product.id }})">
+    {% if product.id in wishlist_product_ids %}♥{% else %}♡{% endif %}
+</button> {% endif %}
             </div>
 
             <div class="card-body d-flex flex-column">

@@ -1,9 +1,9 @@
-from flask import render_template, redirect, url_for, flash, request, abort
+from flask import render_template, redirect, url_for, flash, request, jsonify
 from flask_login import login_required, current_user
 
 from blueprints.cart import cart_bp
 from extensions import db
-from models import Cart, Product, Order, OrderItem
+from models import Cart, Product, Wishlist
 
 
 @cart_bp.route('/cart')
@@ -130,3 +130,47 @@ def checkout():
         return redirect(url_for('orders.my_orders'))
 
     return render_template('cart/checkout.html', cart_items=cart_items, total=total)
+
+@cart_bp.route('/wishlist')
+@login_required
+def view_wishlist():
+    """Customer views their saved wishlist items."""
+    items = Wishlist.query.filter_by(customer_id=current_user.id).order_by(Wishlist.added_at.desc()).all()
+    return render_template('cart/wishlist.html', items=items)
+
+
+@cart_bp.route('/wishlist/toggle/<int:product_id>', methods=['POST'])
+@login_required
+def toggle_wishlist(product_id):
+    """Add or remove a product from the customer's wishlist. Used by the heart icon (AJAX)."""
+    if not current_user.is_customer():
+        return jsonify({'error': 'Only customers can use wishlist'}), 403
+
+    existing = Wishlist.query.filter_by(customer_id=current_user.id, product_id=product_id).first()
+
+    if existing:
+        db.session.delete(existing)
+        db.session.commit()
+        return jsonify({'status': 'removed'})
+    else:
+        product = Product.query.get_or_404(product_id)
+        new_item = Wishlist(customer_id=current_user.id, product_id=product.id)
+        db.session.add(new_item)
+        db.session.commit()
+        return jsonify({'status': 'added'})
+
+
+@cart_bp.route('/wishlist/remove/<int:item_id>', methods=['POST'])
+@login_required
+def remove_wishlist_item(item_id):
+    """Remove an item directly from the wishlist page (non-AJAX fallback)."""
+    item = Wishlist.query.get_or_404(item_id)
+
+    if item.customer_id != current_user.id:
+        from flask import abort
+        abort(403)
+
+    db.session.delete(item)
+    db.session.commit()
+    flash('Removed from wishlist.', 'info')
+    return redirect(url_for('cart.view_wishlist'))

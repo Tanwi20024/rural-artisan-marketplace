@@ -42,13 +42,19 @@ def list_products():
 
     categories = ['Pottery', 'Handloom', 'Wooden Crafts', 'Bamboo Crafts', 'Paintings', 'Jewelry']
 
+    wishlist_product_ids = []
+    if current_user.is_authenticated and current_user.is_customer():
+        from models import Wishlist
+        wishlist_product_ids = [w.product_id for w in Wishlist.query.filter_by(customer_id=current_user.id).all()]
+
     return render_template(
         'products/products.html',
         products=products,
         categories=categories,
         search_term=search_term,
         selected_category=category,
-        selected_sort=sort_option
+        selected_sort=sort_option,
+        wishlist_product_ids=wishlist_product_ids
     )
 
 

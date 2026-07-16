@@ -427,3 +427,11 @@ a:hover {
 .craft-card:hover {
     border: 1px solid var(--color-secondary);
 }
+
+
+/* Wishlist */
+
+.wishlist-btn.wishlist-active {
+    color: #c0392b;
+    background-color: white;
+}
