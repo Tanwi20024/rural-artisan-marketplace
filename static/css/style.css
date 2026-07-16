@@ -450,3 +450,22 @@ a:hover {
     color: var(--color-primary);
     font-family: var(--font-heading);
 }
+
+
+/* Trust section */
+
+.trust-section {
+    background-color: var(--color-surface);
+    border-radius: var(--radius-md);
+}
+
+.trust-icon {
+    font-size: 2rem;
+}
+
+
+/* Testimonials */
+
+.testimonial-card {
+    background-color: var(--color-surface);
+}

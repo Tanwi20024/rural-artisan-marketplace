@@ -113,6 +113,13 @@ def create_app():
             'families': artisans_count
         }
 
+        testimonials = (
+            Review.query.filter(Review.comment.isnot(None), Review.comment != '')
+            .order_by(Review.rating.desc(), Review.created_at.desc())
+            .limit(6)
+            .all()
+        )
+
         return render_template(
             'home.html',
             recently_viewed_products=recently_viewed_products,
@@ -120,7 +127,8 @@ def create_app():
             new_arrivals=new_arrivals,
             trending_products=trending_products,
             featured_artisans=featured_artisans,
-            impact_stats=impact_stats
+            impact_stats=impact_stats,
+            testimonials=testimonials
         )
 
     @app.route('/about')

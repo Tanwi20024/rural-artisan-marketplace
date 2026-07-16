@@ -269,4 +269,55 @@
     </div>
 </div>
 
-{% endblock %}
+<div class="row text-center my-5 py-4 trust-section">
+    <div class="col-6 col-md-2 mb-3">
+        <div class="trust-icon">🤲</div>
+        <p class="small mb-0">100% Handmade</p>
+    </div>
+    <div class="col-6 col-md-2 mb-3">
+        <div class="trust-icon">🇮🇳</div>
+        <p class="small mb-0">Made in India</p>
+    </div>
+    <div class="col-6 col-md-2 mb-3">
+        <div class="trust-icon">🤝</div>
+        <p class="small mb-0">Direct from Artisan</p>
+    </div>
+    <div class="col-6 col-md-2 mb-3">
+        <div class="trust-icon">🔒</div>
+        <p class="small mb-0">Secure Shopping</p>
+    </div>
+    <div class="col-6 col-md-2 mb-3">
+        <div class="trust-icon">✅</div>
+        <p class="small mb-0">Quality Checked</p>
+    </div>
+</div>
+
+{% if testimonials %}
+<div class="mb-5">
+    <h3 class="mb-4 text-center">What Our Customers Say</h3>
+    <div id="testimonialCarousel" class="carousel slide" data-bs-ride="carousel">
+        <div class="carousel-inner">
+            {% for review in testimonials %}
+            <div class="carousel-item {% if loop.first %}active{% endif %}">
+                <div class="row justify-content-center">
+                    <div class="col-md-6 text-center">
+                        <div class="card p-4 testimonial-card">
+                            <p class="text-warning mb-2">{{ '★' * review.rating }}{{ '☆' * (5 - review.rating) }}</p>
+                            <p class="fst-italic">"{{ review.comment }}"</p>
+                            <p class="fw-bold mb-0">{{ review.customer.name }}</p>
+                            <p class="text-muted small">on {{ review.product.name }}</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+        <button class="carousel-control-prev" type="button" data-bs-target="#testimonialCarousel" data-bs-slide="prev">
+            <span class="carousel-control-prev-icon" style="filter: invert(1);"></span>
+        </button>
+        <button class="carousel-control-next" type="button" data-bs-target="#testimonialCarousel" data-bs-slide="next">
+            <span class="carousel-control-next-icon" style="filter: invert(1);"></span>
+        </button>
+    </div>
+</div>
+{% endif %} {% endblock %}
