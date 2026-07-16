@@ -85,13 +85,19 @@ def product_detail(product_id):
         already_reviewed = Review.query.filter_by(product_id=product.id, customer_id=current_user.id).first() is not None
         can_review = bool(has_purchased) and not already_reviewed
 
+    similar_products = Product.query.filter(
+        Product.category == product.category,
+        Product.id != product.id
+    ).order_by(Product.created_at.desc()).limit(4).all()
+
     return render_template(
         'products/product_detail.html',
         product=product,
         reviews=reviews,
         avg_rating=avg_rating,
         can_review=can_review,
-        already_reviewed=already_reviewed
+        already_reviewed=already_reviewed,
+        similar_products=similar_products
     )
 
 

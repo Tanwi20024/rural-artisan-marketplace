@@ -40,7 +40,8 @@ def create_app():
     @app.route('/')
     def home():
         from flask import session
-        from models import Product
+        from flask_login import current_user
+        from models import Product, Order, OrderItem
 
         recently_viewed_ids = session.get('recently_viewed', [])
         recently_viewed_products = []
@@ -48,7 +49,30 @@ def create_app():
             products_by_id = {p.id: p for p in Product.query.filter(Product.id.in_(recently_viewed_ids)).all()}
             recently_viewed_products = [products_by_id[pid] for pid in recently_viewed_ids if pid in products_by_id]
 
-        return render_template('home.html', recently_viewed_products=recently_viewed_products)
+        recommended_products = []
+        if current_user.is_authenticated and current_user.is_customer():
+            purchased_product_ids = [
+                item.product_id for item in
+                OrderItem.query.join(Order).filter(Order.customer_id == current_user.id).all()
+            ]
+
+            if purchased_product_ids:
+                purchased_categories = {
+                    p.category for p in Product.query.filter(Product.id.in_(purchased_product_ids)).all()
+                }
+                recommended_products = Product.query.filter(
+                    Product.category.in_(purchased_categories),
+                    ~Product.id.in_(purchased_product_ids)
+                ).order_by(Product.created_at.desc()).limit(6).all()
+
+        if not recommended_products:
+            recommended_products = Product.query.order_by(Product.created_at.desc()).limit(6).all()
+
+        return render_template(
+            'home.html',
+            recently_viewed_products=recently_viewed_products,
+            recommended_products=recommended_products
+        )
 
     @app.route('/about')
     def about():

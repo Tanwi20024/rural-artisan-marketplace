@@ -111,4 +111,28 @@
         {% endfor %}
     </div>
 </div>
+{% endif %} {% if recommended_products %}
+<div class="mt-5 mb-5">
+    <h3 class="mb-4">Recommended for You</h3>
+    <div class="row">
+        {% for product in recommended_products %}
+        <div class="col-md-2 col-sm-4 col-6 mb-4">
+            <a href="{{ url_for('products.product_detail', product_id=product.id) }}" class="text-decoration-none text-dark">
+                <div class="card h-100 product-card">
+                    {% if product.image_filename %}
+                    <img src="{{ url_for('static', filename='uploads/' + product.image_filename) }}" class="card-img-top" style="height: 140px; object-fit: cover;" alt="{{ product.name }}"> {% else %}
+                    <div class="bg-light d-flex align-items-center justify-content-center" style="height: 140px;">
+                        <span class="text-muted small">No Image</span>
+                    </div>
+                    {% endif %}
+                    <div class="card-body p-2">
+                        <p class="small mb-0 text-truncate">{{ product.name }}</p>
+                        <p class="small fw-bold mb-0">₹{{ "%.2f"|format(product.price) }}</p>
+                    </div>
+                </div>
+            </a>
+        </div>
+        {% endfor %}
+    </div>
+</div>
 {% endif %} {% endblock %}
