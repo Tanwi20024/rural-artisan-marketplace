@@ -96,3 +96,8 @@ class ReviewForm(FlaskForm):
     )
     comment = TextAreaField('Comment', validators=[Length(max=500)])
     submit = SubmitField('Submit Review')
+
+class NewsletterForm(FlaskForm):
+    """Simple email capture for newsletter signup."""
+    email = StringField('Email', validators=[DataRequired(), Length(max=120)])
+    submit = SubmitField('Subscribe')

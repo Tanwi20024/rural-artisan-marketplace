@@ -205,3 +205,14 @@ class Wishlist(db.Model):
 
     def __repr__(self):
         return f'<Wishlist customer={self.customer_id} product={self.product_id}>'
+
+class NewsletterSubscriber(db.Model):
+    """Email addresses collected from the newsletter signup form."""
+    __tablename__ = 'newsletter_subscribers'
+
+    id = db.Column(db.Integer, primary_key=True)
+    email = db.Column(db.String(120), unique=True, nullable=False)
+    subscribed_at = db.Column(db.DateTime, default=datetime.utcnow)
+
+    def __repr__(self):
+        return f'<NewsletterSubscriber {self.email}>'

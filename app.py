@@ -1,4 +1,4 @@
-from flask import Flask, render_template
+from flask import Flask, render_template, flash, redirect, url_for, request
 from config import Config
 from extensions import db, login_manager, migrate
 from sqlalchemy import func
@@ -138,6 +138,28 @@ def create_app():
     @app.route('/contact')
     def contact():
         return render_template('contact.html')
+    
+    @app.route('/newsletter/subscribe', methods=['POST'])
+    def newsletter_subscribe():
+        from models import NewsletterSubscriber
+        from flask import request
+
+        email = request.form.get('email', '').strip()
+
+        if not email:
+            flash('Please enter a valid email address.', 'warning')
+            return redirect(request.referrer or url_for('home'))
+
+        existing = NewsletterSubscriber.query.filter_by(email=email).first()
+        if existing:
+            flash('You are already subscribed!', 'info')
+        else:
+            new_subscriber = NewsletterSubscriber(email=email)
+            db.session.add(new_subscriber)
+            db.session.commit()
+            flash('Thanks for subscribing! You will hear from us soon.', 'success')
+
+        return redirect(request.referrer or url_for('home'))
 
     @app.errorhandler(404)
     def page_not_found(e):
