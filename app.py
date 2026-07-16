@@ -41,7 +41,7 @@ def create_app():
     def home():
         from flask import session
         from flask_login import current_user
-        from models import Product, Order, OrderItem
+        from models import Product, Order, OrderItem, Review
 
         recently_viewed_ids = session.get('recently_viewed', [])
         recently_viewed_products = []
@@ -68,10 +68,34 @@ def create_app():
         if not recommended_products:
             recommended_products = Product.query.order_by(Product.created_at.desc()).limit(6).all()
 
+            new_arrivals = Product.query.order_by(Product.created_at.desc()).limit(6).all()
+
+        from sqlalchemy import func
+        trending_products = (
+            Product.query.outerjoin(Review)
+            .group_by(Product.id)
+            .order_by(func.count(Review.id).desc())
+            .limit(6)
+            .all()
+        )
+
+        from models import User
+        featured_artisans = (
+            User.query.filter_by(role='artisan')
+            .join(Product, Product.artisan_id == User.id)
+            .group_by(User.id)
+            .order_by(func.count(Product.id).desc())
+            .limit(4)
+            .all()
+        )
+
         return render_template(
             'home.html',
             recently_viewed_products=recently_viewed_products,
-            recommended_products=recommended_products
+            recommended_products=recommended_products,
+            new_arrivals=new_arrivals,
+            trending_products=trending_products,
+            featured_artisans=featured_artisans
         )
 
     @app.route('/about')

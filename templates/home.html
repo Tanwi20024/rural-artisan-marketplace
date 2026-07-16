@@ -135,4 +135,74 @@
         {% endfor %}
     </div>
 </div>
-{% endif %} {% endblock %}
+{% endif %} {% if new_arrivals %}
+<div class="mt-5 mb-5">
+    <h3 class="mb-4">New Arrivals</h3>
+    <div class="row">
+        {% for product in new_arrivals %}
+        <div class="col-md-2 col-sm-4 col-6 mb-4">
+            <a href="{{ url_for('products.product_detail', product_id=product.id) }}" class="text-decoration-none text-dark">
+                <div class="card h-100 product-card">
+                    {% if product.image_filename %}
+                    <img src="{{ url_for('static', filename='uploads/' + product.image_filename) }}" class="card-img-top" style="height: 140px; object-fit: cover;" alt="{{ product.name }}"> {% else %}
+                    <div class="bg-light d-flex align-items-center justify-content-center" style="height: 140px;">
+                        <span class="text-muted small">No Image</span>
+                    </div>
+                    {% endif %}
+                    <div class="card-body p-2">
+                        <p class="small mb-0 text-truncate">{{ product.name }}</p>
+                        <p class="small fw-bold mb-0">₹{{ "%.2f"|format(product.price) }}</p>
+                    </div>
+                </div>
+            </a>
+        </div>
+        {% endfor %}
+    </div>
+</div>
+{% endif %} {% if trending_products %}
+<div class="mt-5 mb-5">
+    <h3 class="mb-4">Trending Products</h3>
+    <div class="row">
+        {% for product in trending_products %}
+        <div class="col-md-2 col-sm-4 col-6 mb-4">
+            <a href="{{ url_for('products.product_detail', product_id=product.id) }}" class="text-decoration-none text-dark">
+                <div class="card h-100 product-card">
+                    {% if product.image_filename %}
+                    <img src="{{ url_for('static', filename='uploads/' + product.image_filename) }}" class="card-img-top" style="height: 140px; object-fit: cover;" alt="{{ product.name }}"> {% else %}
+                    <div class="bg-light d-flex align-items-center justify-content-center" style="height: 140px;">
+                        <span class="text-muted small">No Image</span>
+                    </div>
+                    {% endif %}
+                    <div class="card-body p-2">
+                        <p class="small mb-0 text-truncate">{{ product.name }}</p>
+                        <p class="small fw-bold mb-0">₹{{ "%.2f"|format(product.price) }}</p>
+                    </div>
+                </div>
+            </a>
+        </div>
+        {% endfor %}
+    </div>
+</div>
+{% endif %} {% if featured_artisans %}
+<div class="mt-5 mb-5">
+    <h3 class="mb-4">Featured Artisans</h3>
+    <div class="row">
+        {% for artisan in featured_artisans %}
+        <div class="col-md-3 col-sm-6 mb-4">
+            <a href="{{ url_for('profile.artisan_public_profile', artisan_id=artisan.id) }}" class="text-decoration-none text-dark">
+                <div class="card p-3 text-center h-100">
+                    {% if artisan.artisan_profile and artisan.artisan_profile.profile_photo %}
+                    <img src="{{ url_for('static', filename='uploads/' + artisan.artisan_profile.profile_photo) }}" class="artisan-avatar mb-2" style="width: 80px; height: 80px;" alt="{{ artisan.name }}"> {% else %}
+                    <div class="artisan-avatar-placeholder mb-2" style="width: 80px; height: 80px; font-size: 1.8rem;">{{ artisan.name[0] }}</div>
+                    {% endif %}
+                    <p class="fw-bold mb-1">{{ artisan.artisan_profile.shop_name or artisan.name }}</p>
+                    {% if artisan.artisan_profile and artisan.artisan_profile.village %}
+                    <p class="small text-muted mb-0">{{ artisan.artisan_profile.village }}</p>
+                    {% endif %}
+                </div>
+            </a>
+        </div>
+        {% endfor %}
+    </div>
+</div>
+{% endif %}{% endblock %}
