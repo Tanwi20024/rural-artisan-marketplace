@@ -1,5 +1,7 @@
 # 🧺 Rural Artisan Marketplace
 
+Live Link = https://rural-artisan-marketplace.onrender.com
+
 A full-stack web application connecting rural artisans across India directly with customers, eliminating middlemen and promoting traditional handicrafts.
 
 Built as a B.Tech final-year portfolio project.
