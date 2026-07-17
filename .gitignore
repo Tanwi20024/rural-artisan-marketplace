@@ -5,4 +5,5 @@ __pycache__/
 static/uploads/*
 !static/uploads/.gitkeep
 .vscode/
-*.log
+*.logaiven-ca.pem
+ca.pem
