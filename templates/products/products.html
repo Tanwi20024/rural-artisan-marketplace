@@ -66,13 +66,35 @@
 
                 <p class="fw-bold mb-3">₹{{ "%.2f"|format(product.price) }}</p>
 
-                <a href="{{ url_for('products.product_detail', product_id=product.id) }}" class="btn btn-primary-warm mt-auto">View Details</a>
+                <div class="d-flex flex-column gap-2 mt-auto">
+                    <a href="{{ url_for('products.product_detail', product_id=product.id) }}" class="btn btn-primary-warm text-center py-2">View Details</a>
+                    
+                    {% if current_user.is_authenticated %}
+                        {% if current_user.is_customer() %}
+                        <div class="d-flex gap-1">
+                            <form method="POST" action="{{ url_for('cart.add_to_cart', product_id=product.id) }}" class="flex-grow-1">
+                                <button type="submit" class="btn btn-accent btn-sm w-100 py-2" title="Add to Cart">Add to Cart</button>
+                            </form>
+                            <form method="POST" action="{{ url_for('cart.add_to_cart', product_id=product.id) }}" class="flex-grow-1">
+                                <input type="hidden" name="buy_now" value="1">
+                                <button type="submit" class="btn btn-buy btn-sm w-100 py-2" title="Buy It Now">Buy Now</button>
+                            </form>
+                        </div>
+                        {% endif %}
+                    {% else %}
+                        <div class="d-flex gap-1">
+                            <a href="{{ url_for('auth.login', next=request.path) }}" class="btn btn-accent btn-sm flex-grow-1 py-2 text-center text-decoration-none">Add to Cart</a>
+                            <a href="{{ url_for('auth.login', next=request.path) }}" class="btn btn-buy btn-sm flex-grow-1 py-2 text-center text-decoration-none">Buy Now</a>
+                        </div>
+                    {% endif %}
+                </div>
             </div>
         </div>
     </div>
     {% else %}
     <p class="text-muted">No products found.</p>
     {% endfor %}
+
 </div>
 
 {% endblock %}.

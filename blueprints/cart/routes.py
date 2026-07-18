@@ -38,8 +38,15 @@ def add_to_cart(product_id):
         db.session.add(new_item)
 
     db.session.commit()
+
+    # Check if this is a "Buy It Now" action
+    buy_now = request.args.get('buy_now') or request.form.get('buy_now')
+    if buy_now:
+        return redirect(url_for('cart.checkout'))
+
     flash(f'{product.name} added to cart.', 'success')
     return redirect(url_for('products.product_detail', product_id=product.id))
+
 
 
 @cart_bp.route('/cart/update/<int:cart_id>', methods=['POST'])

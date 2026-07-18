@@ -92,6 +92,23 @@ h6,
     box-shadow: var(--shadow-hover);
 }
 
+.btn-buy {
+    background-color: var(--color-secondary);
+    color: white;
+    border: none;
+    border-radius: var(--radius-sm);
+    font-weight: 500;
+    transition: all 0.25s ease;
+}
+
+.btn-buy:hover {
+    background-color: #c47c2f;
+    color: white;
+    transform: translateY(-2px);
+    box-shadow: var(--shadow-hover);
+}
+
+
 
 /* Footer */
 
