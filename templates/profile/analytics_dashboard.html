@@ -1,0 +1,145 @@
+{% extends "base.html" %}
+
+{% block title %}Analytics Dashboard{% endblock %}
+
+{% block content %}
+<div class="container mt-4">
+
+    <h2 class="mb-4">📊 Artisan Analytics Dashboard</h2>
+
+    <!-- Analytics Cards -->
+    <div class="row">
+
+        <div class="col-md-3 mb-3">
+            <div class="card shadow-sm">
+                <div class="card-body text-center">
+                    <h5>Total Products</h5>
+                    <h2>{{ total_products }}</h2>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-3 mb-3">
+            <div class="card shadow-sm">
+                <div class="card-body text-center">
+                    <h5>Total Orders</h5>
+                    <h2>{{ total_orders }}</h2>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-3 mb-3">
+            <div class="card shadow-sm">
+                <div class="card-body text-center">
+                    <h5>Revenue</h5>
+                    <h2>₹{{ total_revenue }}</h2>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-3 mb-3">
+            <div class="card shadow-sm">
+                <div class="card-body text-center">
+                    <h5>Pending Orders</h5>
+                    <h2>{{ pending_orders }}</h2>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+    <!-- Charts -->
+    <div class="row mt-4">
+
+        <div class="col-md-6 mb-4">
+            <div class="card shadow-sm">
+                <div class="card-body">
+                    <h5 class="text-center">Monthly Revenue</h5>
+                    <canvas id="revenueChart"></canvas>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-6 mb-4">
+            <div class="card shadow-sm">
+                <div class="card-body">
+                    <h5 class="text-center">Order Status</h5>
+                    <canvas id="statusChart"></canvas>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+<script>
+
+// ===================== Monthly Revenue (Real Data) =====================
+
+fetch("/analytics-data")
+    .then(response => response.json())
+    .then(data => {
+
+        const revenueCtx = document.getElementById("revenueChart");
+
+        new Chart(revenueCtx, {
+            type: "bar",
+            data: {
+                labels: data.month_labels,
+                datasets: [{
+                    label: "Revenue",
+                    data: data.monthly_revenue,
+                    borderWidth: 1
+                }]
+            },
+            options: {
+                responsive: true
+            }
+        });
+
+    })
+    .catch(error => console.error(error));
+
+// ===================== Order Status (Real Data) =====================
+
+const pendingOrders = Number("{{ pending_orders }}");
+const shippedOrders = Number("{{ shipped_orders }}");
+const outForDeliveryOrders = Number("{{ out_for_delivery_orders }}");
+const deliveredOrders = Number("{{ delivered_orders }}");
+
+const statusCtx = document.getElementById("statusChart");
+new Chart(statusCtx, {
+    type: "pie",
+    data: {
+        labels: [
+            "Pending",
+            "Shipped",
+            "Out for Delivery",
+            "Delivered"
+        ],
+        datasets: [{
+            label: "Orders",
+            data: [
+                pendingOrders,
+                shippedOrders,
+                outForDeliveryOrders,
+                deliveredOrders
+            ]
+        }]
+    },
+    options: {
+        responsive: true,
+        plugins: {
+            legend: {
+                position: "top"
+            }
+        }
+    }
+});
+
+</script>
+
+{% endblock %}
